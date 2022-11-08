@@ -4,7 +4,8 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.0
-	github.com/mkorman9/go-commons v1.1.49
+	github.com/mkorman9/go-commons v1.1.54
+	github.com/rs/zerolog v1.26.1
 )
 
 require (
@@ -20,7 +21,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-	github.com/rs/zerolog v1.26.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/crypto v0.0.0-20211215165025-cf75a172585e // indirect
 	golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect
