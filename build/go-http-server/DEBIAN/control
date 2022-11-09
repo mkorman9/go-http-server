@@ -1,0 +1,5 @@
+Package: go-http-server
+Version: __VERSION__
+Architecture: amd64
+Maintainer: Me <me@example.com>
+Description: HTTP server written in Go.

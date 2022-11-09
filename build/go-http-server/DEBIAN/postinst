@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ ! -f "/etc/go-http-server/config.yml" ]]; then
+  cp -a "/etc/go-http-server/config.example.yml" "/etc/go-http-server/config.yml"
+fi
+
+systemctl daemon-reload && \
+    systemctl start go-http-server && \
+    systemctl enable go-http-server

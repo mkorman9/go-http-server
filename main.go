@@ -2,22 +2,37 @@ package main
 
 import (
 	"embed"
+	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/mkorman9/go-commons/configutil"
 	"github.com/mkorman9/go-commons/coreutil"
 	"github.com/mkorman9/go-commons/httputil"
 	"github.com/mkorman9/go-commons/logutil"
 	"github.com/rs/zerolog/log"
 	"html/template"
 	"net/http"
+	"os"
 )
 
 //go:embed templates
 var templatesFS embed.FS
 
 func main() {
+	configFilePath := flag.String("config", "./config.yml", "path to config.yml file")
+	flag.Parse()
+
+	config, err := configutil.LoadConfigFromFile(*configFilePath)
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "Failed to load configuration file: %v\n", err)
+		os.Exit(1)
+	}
+
 	logutil.SetupLogger()
 
-	httpServer := httputil.NewServer()
+	httpServer := httputil.NewServer(
+		httputil.Address(config.String("http.address", "0.0.0.0:8080")),
+	)
 
 	htmlTemplates, err := template.ParseFS(templatesFS, "templates/**/*.html")
 	if err != nil {

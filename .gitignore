@@ -2,3 +2,4 @@
 .idea/
 /go-http-server
 /go-http-server.exe
+/go-http-server_*_amd64.deb
