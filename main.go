@@ -13,10 +13,16 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"path"
 )
 
-//go:embed templates
-var templatesFS embed.FS
+var (
+	//go:embed web/templates
+	templatesFS embed.FS
+
+	//go:embed web/static
+	staticFS embed.FS
+)
 
 func main() {
 	configFilePath := flag.String("config", "./config.yml", "path to config.yml file")
@@ -34,7 +40,7 @@ func main() {
 		httputil.Address(config.String("http.address", "0.0.0.0:8080")),
 	)
 
-	htmlTemplates, err := template.ParseFS(templatesFS, "templates/**/*.html")
+	htmlTemplates, err := template.ParseFS(templatesFS, "web/templates/**/*.html")
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to load HTML templates")
 		return
@@ -45,6 +51,10 @@ func main() {
 		c.HTML(http.StatusOK, "html/index.html", gin.H{
 			"message": "Hello world",
 		})
+	})
+
+	httpServer.GET("/static/*filepath", func(c *gin.Context) {
+		c.FileFromFS(path.Join("web/", c.Request.URL.Path), http.FS(staticFS))
 	})
 
 	coreutil.StartAndBlock(httpServer)
