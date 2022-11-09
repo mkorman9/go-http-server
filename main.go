@@ -16,16 +16,8 @@ import (
 	"path"
 )
 
-var (
-	//go:embed web/templates
-	templatesFS embed.FS
-
-	//go:embed web/static
-	staticFS embed.FS
-
-	//go:embed web/favicon.ico
-	faviconFS embed.FS
-)
+//go:embed web
+var webFS embed.FS
 
 func main() {
 	configFilePath := flag.String("config", "./config.yml", "path to config.yml file")
@@ -43,7 +35,8 @@ func main() {
 		httputil.Address(config.String("http.address", "0.0.0.0:8080")),
 	)
 
-	htmlTemplates, err := template.ParseFS(templatesFS, "web/templates/**/*.html")
+	httpWebFS := http.FS(webFS)
+	htmlTemplates, err := template.ParseFS(webFS, "web/templates/**/*.html")
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to load HTML templates")
 		return
@@ -57,11 +50,11 @@ func main() {
 	})
 
 	httpServer.GET("/static/*filepath", func(c *gin.Context) {
-		c.FileFromFS(path.Join("web/", c.Request.URL.Path), http.FS(staticFS))
+		c.FileFromFS(path.Join("web/", c.Request.URL.Path), httpWebFS)
 	})
 
 	httpServer.GET("/favicon.ico", func(c *gin.Context) {
-		c.FileFromFS("web/favicon.ico", http.FS(faviconFS))
+		c.FileFromFS("web/favicon.ico", httpWebFS)
 	})
 
 	coreutil.StartAndBlock(httpServer)
