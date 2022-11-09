@@ -22,6 +22,9 @@ var (
 
 	//go:embed web/static
 	staticFS embed.FS
+
+	//go:embed web/favicon.ico
+	faviconFS embed.FS
 )
 
 func main() {
@@ -55,6 +58,10 @@ func main() {
 
 	httpServer.GET("/static/*filepath", func(c *gin.Context) {
 		c.FileFromFS(path.Join("web/", c.Request.URL.Path), http.FS(staticFS))
+	})
+
+	httpServer.GET("/favicon.ico", func(c *gin.Context) {
+		c.FileFromFS("web/favicon.ico", http.FS(faviconFS))
 	})
 
 	coreutil.StartAndBlock(httpServer)
