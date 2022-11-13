@@ -49,8 +49,8 @@ func main() {
 		})
 	})
 
-	httpServer.GET("/static/*filepath", func(c *gin.Context) {
-		c.FileFromFS(path.Join("web/", c.Request.URL.Path), httpWebFS)
+	httpServer.GET("/static/*path", func(c *gin.Context) {
+		c.FileFromFS(path.Join("web/static/", c.Param("path")), httpWebFS)
 	})
 
 	httpServer.GET("/favicon.ico", func(c *gin.Context) {
