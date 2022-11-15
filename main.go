@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 )
 
 //go:embed web
@@ -50,7 +51,13 @@ func main() {
 	})
 
 	httpServer.GET("/static/*path", func(c *gin.Context) {
-		c.FileFromFS(path.Join("web/static/", c.Param("path")), httpWebFS)
+		p := c.Param("path")
+		if strings.Contains(p, "..") {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+
+		c.FileFromFS(path.Join("web/static/", p), httpWebFS)
 	})
 
 	httpServer.GET("/favicon.ico", func(c *gin.Context) {
