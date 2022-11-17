@@ -30,7 +30,7 @@ func main() {
 
 	tiny.SetupLogger()
 
-	httpServer := tiny.NewHTTPServer(
+	httpServer := tinyhttp.NewServer(
 		tinyhttp.Address(config.String("http.address", "0.0.0.0:8080")),
 	)
 
