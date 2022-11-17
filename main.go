@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gookit/config/v2"
 	"github.com/mkorman9/tiny"
 	"github.com/mkorman9/tiny/tinyhttp"
 	"github.com/rs/zerolog/log"
@@ -22,7 +23,7 @@ func main() {
 	configFilePath := flag.String("config", "./config.yml", "path to config.yml file")
 	flag.Parse()
 
-	config, err := tiny.LoadConfig(*configFilePath)
+	err := tiny.LoadConfig(*configFilePath)
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "Failed to load configuration file: %v\n", err)
 		os.Exit(1)
