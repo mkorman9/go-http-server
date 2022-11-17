@@ -5,10 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/mkorman9/go-commons/configutil"
-	"github.com/mkorman9/go-commons/coreutil"
-	"github.com/mkorman9/go-commons/httputil"
-	"github.com/mkorman9/go-commons/logutil"
+	"github.com/mkorman9/tiny"
+	"github.com/mkorman9/tiny/tinyhttp"
 	"github.com/rs/zerolog/log"
 	"html/template"
 	"net/http"
@@ -24,16 +22,16 @@ func main() {
 	configFilePath := flag.String("config", "./config.yml", "path to config.yml file")
 	flag.Parse()
 
-	config, err := configutil.LoadConfigFromFile(*configFilePath)
+	config, err := tiny.LoadConfig(*configFilePath)
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "Failed to load configuration file: %v\n", err)
 		os.Exit(1)
 	}
 
-	logutil.SetupLogger()
+	tiny.SetupLogger()
 
-	httpServer := httputil.NewServer(
-		httputil.Address(config.String("http.address", "0.0.0.0:8080")),
+	httpServer := tiny.NewHTTPServer(
+		tinyhttp.Address(config.String("http.address", "0.0.0.0:8080")),
 	)
 
 	httpWebFS := http.FS(webFS)
@@ -64,5 +62,5 @@ func main() {
 		c.FileFromFS("web/favicon.ico", httpWebFS)
 	})
 
-	coreutil.StartAndBlock(httpServer)
+	tiny.StartAndBlock(httpServer)
 }
