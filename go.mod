@@ -4,7 +4,8 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	github.com/mkorman9/tiny v1.0.3
+	github.com/gookit/config/v2 v2.1.8
+	github.com/mkorman9/tiny v1.0.8
 	github.com/rs/zerolog v1.28.0
 )
 
@@ -15,7 +16,6 @@ require (
 	github.com/go-playground/validator/v10 v10.11.0 // indirect
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
-	github.com/gookit/config/v2 v2.1.8 // indirect
 	github.com/gookit/goutil v0.5.15 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
