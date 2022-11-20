@@ -6,7 +6,7 @@ compile:
 	CGO_ENABLED=0 go build -o $(OUTPUT)
 
 package:
-	VERSION=$(shell make version) build/package.sh
+	VERSION=$(shell make version) bash build/package.sh
 
 version:
 	@echo "1.0.0"
